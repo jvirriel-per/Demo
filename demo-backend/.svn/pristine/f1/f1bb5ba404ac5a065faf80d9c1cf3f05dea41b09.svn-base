@@ -1,0 +1,17 @@
+package com.pt.demo.backend.entitystatus;
+
+import com.pt.demo.model.entitystatus.EntityStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+/**
+ * EntityStatusJpaRepository.java
+ *
+ * Interfaz creada por: jrojas
+ * Fecha de creación: 22-05-2017
+ * Interfaz modificada por: jrojas
+ * Fecha de modificación: 23-05-2017
+ */
+public interface EntityStatusJpaRepository extends JpaRepository<EntityStatus, Integer>,
+        JpaSpecificationExecutor<EntityStatus> {
+}
