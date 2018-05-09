@@ -1,0 +1,22 @@
+package com.jvirriel.event;
+
+import org.springframework.context.ApplicationEvent;
+
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Created by rcastillo on 27/04/2017.
+ */
+public class SingleResourceRetrieved extends ApplicationEvent {
+    private HttpServletResponse response;
+
+    public SingleResourceRetrieved(Object source) {
+        super(source);
+    }
+
+    public HttpServletResponse getResponse() {
+        return response;
+    }
+
+
+}
