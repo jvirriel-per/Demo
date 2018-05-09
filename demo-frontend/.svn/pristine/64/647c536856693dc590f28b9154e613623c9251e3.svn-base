@@ -1,0 +1,67 @@
+package com.pt.demo.frontend;
+
+import com.pt.base.core.components.breadcrumb.BreadcrumbItem;
+import com.pt.base.core.components.breadcrumb.events.BreadcrumbEventAdd;
+import com.pt.base.core.views.containers.VoidView;
+import com.pt.base.core.views.main.MainUI;
+import com.pt.base.core.views.navigator.events.NavigatorEventAdd;
+import com.pt.core.exception.ViewErrorHandler;
+import com.pt.demo.frontend.entitystatus.views.EntityStatusContainerUI;
+import com.pt.demo.frontend.entitytype.views.EntityTypeContainerUI;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
+import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.UI;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+
+import static com.pt.core.ui.constants.GeneralConstants.THEME;
+import static com.pt.demo.frontend.entitystatus.constants.EntityStatusGeneralConstants.ENTITY_STATUS;
+import static com.pt.demo.frontend.entitytype.constants.EntityTypeGeneralConstants.ENTITY_TYPE;
+import static com.pt.util.constant.GeneralConstants.EMPTY_STRING;
+
+/**
+ * DemoApp:
+ * <p>
+ * Creado por bpena el 15/05/2017.
+ */
+@Theme(THEME)
+@Title("Demo FE")
+public class DemoApp extends MainUI {
+
+    @WebServlet(value = "/*", asyncSupported = true)
+    @VaadinServletConfiguration(productionMode = false, ui = DemoApp.class)
+    public static class Servlet extends VaadinServlet {
+        @Override
+        protected void servletInitialized() throws ServletException {
+            super.servletInitialized();
+        }
+    }
+
+    @Override
+    protected void init(VaadinRequest vaadinRequest) {
+        super.init(vaadinRequest);
+        UI.getCurrent().setErrorHandler(new ViewErrorHandler());
+    }
+
+    /**
+     * Permite agregar los containers (módulos) que tendrá el aplicativo.
+     */
+    @Override
+    protected void setViews() {
+        super.setViews();
+        bus.post(new NavigatorEventAdd(EMPTY_STRING, VoidView.class));
+        bus.post(new NavigatorEventAdd(ENTITY_STATUS, EntityStatusContainerUI.class));
+        bus.post(new NavigatorEventAdd(ENTITY_TYPE, EntityTypeContainerUI.class));
+    }
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+        super.enter(viewChangeEvent);
+        bus.post(new BreadcrumbEventAdd(new BreadcrumbItem(this.appName, EMPTY_STRING)));
+    }
+}
